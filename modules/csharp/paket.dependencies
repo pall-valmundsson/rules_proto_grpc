@@ -1,0 +1,20 @@
+source https://api.nuget.org/v3/index.json
+
+storage: none
+group grpc_csharp_dependencies
+    framework: net6.0
+    source https://api.nuget.org/v3/index.json
+
+    nuget Google.Protobuf
+    nuget Grpc.AspNetCore
+    nuget Grpc.Core
+    nuget Grpc.Core.Api
+    nuget Grpc.Net.Client
+
+group grpc_csharp_dev_dependencies
+    framework: net6.0
+    source https://api.nuget.org/v3/index.json
+
+nuget Grpc.AspNetCore.Server
+    nuget Microsoft.AspNetCore.App.Ref
+    nuget Newtonsoft.Json

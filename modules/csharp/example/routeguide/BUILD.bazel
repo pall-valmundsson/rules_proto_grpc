@@ -1,0 +1,56 @@
+load("//:defs.bzl", "csharp_grpc_library")
+load("@rules_dotnet//dotnet:defs.bzl", "csharp_binary", "csharp_library")
+
+csharp_grpc_library(
+    name = "routeguide.dll",
+    protos = ["//example/proto:routeguide_proto"],
+    target_frameworks = ["net8.0"],
+)
+
+csharp_library(
+    name = "util.dll",
+    srcs = [
+        "RouteGuideUtil.cs",
+    ],
+    target_frameworks = ["net8.0"],
+    deps = [
+        ":routeguide.dll",
+        "@paket.grpc_csharp_dev_dependencies//newtonsoft.json:newtonsoft.json",
+    ],
+)
+
+csharp_binary(
+    name = "client.exe",
+    srcs = [
+        "Client.cs",
+    ],
+    data = ["//example/proto:routeguide_features"],
+    visibility = ["//example/routeguide:__pkg__"],
+    target_frameworks = ["net8.0"],
+    deps = [
+        ":routeguide.dll",
+        ":util.dll",
+        "@paket.grpc_csharp_dependencies//grpc.core:grpc.core",
+        "@paket.grpc_csharp_dependencies//grpc.core.api:grpc.core.api",
+        "@paket.grpc_csharp_dependencies//grpc.net.client:grpc.net.client",
+    ],
+)
+
+csharp_binary(
+    name = "server.exe",
+    srcs = [
+        "Server.cs",
+    ],
+    data = ["//example/proto:routeguide_features"],
+    visibility = ["//example/routeguide:__pkg__"],
+    project_sdk = "web",
+    target_frameworks = ["net8.0"],
+    deps = [
+        ":routeguide.dll",
+        ":util.dll",
+        "@paket.grpc_csharp_dependencies//grpc.core:grpc.core",
+        "@paket.grpc_csharp_dependencies//grpc.core.api:grpc.core.api",
+        "@paket.grpc_csharp_dev_dependencies//microsoft.aspnetcore.app.ref",
+        "@paket.grpc_csharp_dev_dependencies//grpc.aspnetcore.server:grpc.aspnetcore.server",
+    ],
+)

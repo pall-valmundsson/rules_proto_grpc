@@ -1,0 +1,28 @@
+module(
+    name = "rules_proto_grpc_csharp",
+    version = "0.0.1",
+)
+
+bazel_dep(name = "grpc", version = "1.65.0")
+bazel_dep(name = "protobuf", version = "27.1")
+bazel_dep(name = "rules_dotnet", version = "0.16.1")
+
+paket2bazel_grpc_csharp_dependencies_extension = use_extension(
+    "//paket:paket.grpc_csharp_dependencies_extension.bzl",
+    "grpc_csharp_dependencies_extension",
+)
+use_repo(paket2bazel_grpc_csharp_dependencies_extension, "paket.grpc_csharp_dependencies")
+
+paket2bazel_grpc_csharp_dev_dependencies_extension = use_extension(
+    "//paket:paket.grpc_csharp_dev_dependencies_extension.bzl",
+    "grpc_csharp_dev_dependencies_extension",
+    dev_dependency = True,
+)
+use_repo(paket2bazel_grpc_csharp_dev_dependencies_extension, "paket.grpc_csharp_dev_dependencies")
+
+bazel_dep(name = "rules_proto_grpc", version = "0.0.0.rpg.version.placeholder")
+#bazel_dep(name = "rules_proto_grpc", version = "5.0.0")
+local_path_override(
+    module_name = "rules_proto_grpc",
+    path = "../core",
+)

@@ -1,0 +1,13 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+proto_library(
+    name = "routeguide_proto",
+    srcs = ["routeguide.proto"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "routeguide_features",
+    srcs = ["routeguide_features.json"],
+    visibility = ["//visibility:public"],
+)
